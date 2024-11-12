@@ -12,15 +12,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-y2n&_mg$1#ujv!m-smmp5$^=%vo0jfm5o(i&rp=4uc3#2454-^'
 
+# Подключение S3 как backend для хранения файлов
+# TODO Оплатить yandex cloud для хранения media-файлов DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'  
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Параметры S3
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_ENDPOINT_URL = 'https://storage.yandexcloud.net'
+AWS_S3_REGION_NAME = 'ru-central1'  # Регион бакета
+
+# AWS_QUERYSTRING_AUTH = False Если нужно отключить токены в URL
 
 # Application definition
 
 INSTALLED_APPS = [
+    'app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -59,15 +71,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'djchat.wsgi.application'
 
+AUTH_USER_MODEL = 'app.User'
 
 # Загружаем переменные окружения
 SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
 DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
-
-print("POSTGRES_DB:", os.getenv("POSTGRES_DB"))
-print("POSTGRES_USER:", os.getenv("POSTGRES_USER"))
-print("POSTGRES_PASSWORD:", os.getenv("POSTGRES_PASSWORD"))
 
 # Настройка базы данных PostgreSQL
 DATABASES = {

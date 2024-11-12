@@ -5,3 +5,6 @@ django-environ
 django-channels
 redis
 django-redis
+boto3
+django-storages
+Pillow
