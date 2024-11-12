@@ -4,3 +4,4 @@ psycopg2
 django-environ
 django-channels
 redis
+django-redis
