@@ -8,5 +8,5 @@ router.register(r'channels', ChannelViewSet)
 router.register(r'messages', MessageViewSet)
 
 urlpatterns = [
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
 ]

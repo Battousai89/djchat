@@ -1,8 +1,9 @@
 version: '3.8'
 
 services:
-  django:
+  backend:
     build: ./backend
+    container_name: backend
     environment:
       REDIS_URL: redis://redis:6379/1
     command: python manage.py runserver 0.0.0.0:8000
@@ -15,6 +16,19 @@ services:
     depends_on:
       - db
       - redis
+    networks:
+      - default
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - default
 
   db:
     image: postgres:13

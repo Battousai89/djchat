@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'djoser',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -74,6 +75,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost",  # Адрес фронтенда
+    "http://127.0.0.1",  # Если фронтенд запускается локально
 ]
 
 ROOT_URLCONF = 'djchat.urls'
@@ -166,8 +173,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [ os.path.join(BASE_DIR,'static') ]
+# URL статики и Vue.js файлов
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'frontend/dist/static')]
+
+# Шаблоны для Vue.js
+TEMPLATES[0]['DIRS'] = [os.path.join(BASE_DIR, 'frontend/dist')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
