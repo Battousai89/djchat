@@ -22,9 +22,20 @@ services:
   frontend:
     build:
       context: ./frontend
-    container_name: frontend
+      args:
+        NODE_ENV: ${NODE_ENV:-production} # Выбор окружения
     ports:
-      - "80:80"
+      - "80:80" # Production
+      - "8080:8080" # Development
+    volumes:
+      - ./frontend:/app # Прямая привязка для разработки
+    command: >
+      sh -c "if [ \"$NODE_ENV\" = \"development\" ]; then
+                npm run serve;
+             else
+                nginx -g 'daemon off;';
+             fi"
+    container_name: frontend
     depends_on:
       - backend
     networks:
